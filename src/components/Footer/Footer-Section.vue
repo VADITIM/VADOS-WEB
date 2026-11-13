@@ -137,7 +137,6 @@ onMounted(() => {
     <div class="footer-base">
       <SweepLabel class="micro-label tabular" tag="p" text="© 2026 VADITIM" />
       <SweepLabel class="micro-label tabular" tag="p" :text="`Built on V/AS ${SYSTEM_VERSION}`" />
-      <SweepLabel class="micro-label" tag="p" text="Vue · GSAP · SCSS" />
     </div>
   </footer>
 </template>
@@ -149,9 +148,19 @@ onMounted(() => {
   gap: clamp(3rem, 8vw, 8rem);
   min-height: 100vh;
   min-height: 100svh;
+  position: relative;
   padding: 9rem $gutter 1.5rem;
-  border-top: 1px solid $border;
   overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: $gutter;
+    right: $gutter;
+    height: 1px;
+    background: $divider-section;
+  }
 
   @include verticalLayout {
     gap: 3rem;

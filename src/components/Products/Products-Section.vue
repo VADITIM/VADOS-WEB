@@ -122,7 +122,7 @@ useSectionReveal(header);
   display: block;
   height: 1px;
   margin-top: 1.5rem;
-  background: $text-bright;
+  background: $divider-section;
 }
 
 .products-index {

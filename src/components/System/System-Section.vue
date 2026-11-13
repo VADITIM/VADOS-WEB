@@ -133,8 +133,22 @@ function paddedNumber(value: number): string {
   position: relative;
   display: grid;
   gap: clamp(3rem, 6vw, 6rem);
-  padding: 9rem $gutter 8rem;
+  padding: 6rem $gutter 8rem;
   overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: $gutter;
+    right: $gutter;
+    height: 1px;
+    background: $divider-section;
+  }
+
+  @include verticalLayout {
+    padding-top: 4.5rem;
+  }
 }
 
 .system-wipe {
@@ -207,8 +221,8 @@ function paddedNumber(value: number): string {
 .system-figures {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-top: 1px solid $border;
-  border-bottom: 1px solid $border;
+  border-top: 1px solid $divider-inside;
+  border-bottom: 1px solid $divider-inside;
 
   @include verticalLayout {
     grid-template-columns: repeat(2, minmax(0, 1fr));

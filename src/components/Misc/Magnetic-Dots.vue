@@ -32,6 +32,7 @@ const FADE_IN_SPEED = 0.05;
 const FIELD_STRENGTH = 0.55;
 const FALLBACK_COLOR = '#5bfd5b';
 const OFFSCREEN = -10000;
+const ADDRESS_BAR_ALLOWANCE = 160;
 
 const canvas = ref<HTMLCanvasElement | null>(null);
 
@@ -162,7 +163,8 @@ function handleRelease(): void {
 }
 
 function handleResize(): void {
-  if (resizeHandle) return;
+  const isHeightOnly = window.innerWidth === width && Math.abs(window.innerHeight - height) < ADDRESS_BAR_ALLOWANCE;
+  if (resizeHandle || isHeightOnly) return;
   resizeHandle = requestAnimationFrame(() => {
     resizeHandle = 0;
     buildGrid();

@@ -86,14 +86,19 @@ useAccentRoom(root, () => props.product.accent);
     padding-top: 0;
   }
 
+  &:last-child {
+    padding-bottom: 5rem;
+  }
+
   & + &::before {
     content: '';
     position: absolute;
     top: 0;
-    left: $gutter;
-    right: $gutter;
+    left: 50%;
+    width: calc((100% - 2 * #{$gutter}) * #{$divider-inside-width} / 100%);
     height: 1px;
-    background: $text-bright;
+    background: $divider-inside;
+    transform: translateX(-50%);
   }
 
   &.is-mirrored {
@@ -140,7 +145,7 @@ useAccentRoom(root, () => props.product.accent);
       order: 2;
     }
 
-    > :nth-child(-n + 2) {
+    > :nth-child(-n + 3) {
       order: 0;
     }
   }

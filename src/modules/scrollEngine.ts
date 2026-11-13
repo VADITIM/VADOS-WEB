@@ -22,8 +22,13 @@ export function registerScrollSetup(setup: Callback): void {
   scrollSetups.push(setup);
 }
 
+function isTouchOnly(): boolean {
+  return window.matchMedia('(hover: none), (pointer: coarse)').matches;
+}
+
 export function startScrollEngine(wrapper: HTMLElement, content: HTMLElement): void {
-  if (!isReducedMotion()) {
+  ScrollTrigger.config({ ignoreMobileResize: true });
+  if (!isReducedMotion() && !isTouchOnly()) {
     smoother = ScrollSmoother.create({ wrapper, content, smooth: SMOOTHING_SECONDS, smoothTouch: false });
     smoother.paused(true);
     document.addEventListener('focusin', bringFocusIntoView);
@@ -58,7 +63,7 @@ export function scrollToTarget(selector: string): void {
   const target = document.querySelector<HTMLElement>(selector);
   if (!target) return;
   if (smoother) smoother.scrollTo(target, true, 'top top');
-  else target.scrollIntoView();
+  else target.scrollIntoView({ behavior: isReducedMotion() ? 'auto' : 'smooth' });
 }
 
 export function refreshScrollPositions(): void {
