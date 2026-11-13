@@ -142,14 +142,16 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
+$wordmark-widest: 140svh;
+
 .site-footer {
   display: grid;
   grid-template-rows: 1fr auto auto;
-  gap: clamp(3rem, 8vw, 8rem);
+  gap: clamp(1.5rem, min(8vw, 5svh), 8rem);
   min-height: 100vh;
   min-height: 100svh;
   position: relative;
-  padding: 9rem $gutter 1.5rem;
+  padding: clamp(5.5rem, 14svh, 9rem) $gutter 1.5rem;
   overflow: hidden;
 
   &::before {
@@ -183,7 +185,7 @@ onMounted(() => {
 
 .footer-statement {
   @include heading;
-  font-size: clamp(2rem, 5.6vw, 6.5rem);
+  font-size: clamp(2rem, min(5.6vw, 11svh), 6.5rem);
   color: $text-bright;
 
   @include verticalLayout {
@@ -208,6 +210,9 @@ onMounted(() => {
 .footer-title-frame {
   position: relative;
   isolation: isolate;
+  justify-self: center;
+  width: 100%;
+  max-width: $wordmark-widest;
   min-width: 0;
 }
 
@@ -215,9 +220,10 @@ onMounted(() => {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: calc(-1 * #{$gutter});
+  left: 50%;
   z-index: -1;
   width: 100vw;
+  transform: translateX(-50%);
   background: $accent;
   pointer-events: none;
 }
