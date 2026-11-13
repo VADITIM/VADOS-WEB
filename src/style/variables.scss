@@ -1,0 +1,41 @@
+$ground: #181818;
+$panel: rgba(18, 18, 18, 0.85);
+$panel-solid: #121212;
+$sunken-deep: #0e0e0e;
+$sunken: #1c1c1c;
+$border: #262626;
+$border-strong: #2c2c2c;
+$border-control: #3a3a3a;
+$border-hover: #5a5a5a;
+
+$text-primary: rgba(255, 255, 255, 0.87);
+$text-bright: #f0f0f0;
+$text-body: #d8d8d8;
+$text-muted: #9a9a9a;
+$text-label: #8a8a8a;
+$text-icon: #6a6a6a;
+$text-faint: #4a4a4a;
+
+$default-accent: #5bfd5b;
+$hero-banner: #7e55dd;
+$accent: var(--section-color, #{$default-accent});
+$accent-ink: var(--accent-ink, #{$ground});
+
+$face-display: 'Wosker', 'Chakra Petch', 'Mono', monospace;
+$face-heading: 'Chakra Petch', 'Mono', monospace;
+$face-functional: 'Mono', ui-monospace, monospace;
+
+$label-size: 0.63rem;
+$label-tracking: 0.19rem;
+$heading-tracking: 0.1em;
+
+$squircle: var(--squircle);
+$gutter: clamp(1.25rem, 4vw, 4.5rem);
+
+$ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
+$ease-leave: cubic-bezier(0.55, 0, 1, 0.45);
+$ease-release: cubic-bezier(0.34, 1.56, 0.64, 1);
+$hover-in: 0.25s;
+$hover-out: 0.15s;
+$press: 80ms;
+$release: 220ms;

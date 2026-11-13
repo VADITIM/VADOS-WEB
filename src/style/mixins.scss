@@ -1,0 +1,49 @@
+@use 'variables' as *;
+
+@mixin verticalLayout {
+  @media (orientation: portrait) {
+    @content;
+  }
+}
+
+@mixin finePointer {
+  @media (hover: hover) and (pointer: fine) {
+    @content;
+  }
+}
+
+@mixin reducedMotion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+@mixin microLabel {
+  font-family: $face-functional;
+  font-size: $label-size;
+  font-weight: 500;
+  letter-spacing: $label-tracking;
+  text-transform: uppercase;
+  color: $text-label;
+
+  @include verticalLayout {
+    font-size: clamp(0.625rem, 2.6vw, 0.8rem);
+    letter-spacing: 0.3vw;
+  }
+}
+
+@mixin heading {
+  font-family: $face-heading;
+  letter-spacing: $heading-tracking;
+  text-transform: uppercase;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+@mixin prose {
+  font-family: $face-functional;
+  color: $text-body;
+  line-height: 1.5;
+  max-width: 65ch;
+  text-wrap: pretty;
+}

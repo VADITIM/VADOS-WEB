@@ -1,0 +1,253 @@
+:root {
+  --squircle: 0.75rem;
+  --section-color: #{$default-accent};
+  --accent-ink: #{$ground};
+  color-scheme: dark;
+  forced-color-adjust: none;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: clamp(14px, 0.45vw + 9.5px, 22px);
+  background: $ground !important;
+
+  @include verticalLayout {
+    font-size: 16px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+html.is-intro-running {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: $ground;
+  color: $text-primary;
+  font-family: $face-functional;
+  line-height: 1.5;
+  font-kerning: normal;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+figure {
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+}
+
+img,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+::selection {
+  background: $accent;
+  color: $accent-ink;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.micro-label {
+  @include microLabel;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.pc-label {
+  display: block;
+}
+
+.pc-label-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 0.4em;
+}
+
+.pc-label-inner {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.pc-label-text {
+  display: block;
+  white-space: pre;
+}
+
+.pc-label-bar {
+  position: absolute;
+  top: -6%;
+  bottom: -6%;
+  left: 0;
+  width: 100%;
+  border-radius: 0;
+  background: $accent;
+  box-shadow: 0 0 26px $accent;
+  transform-origin: left center;
+  transform: scaleX(0);
+  pointer-events: none;
+}
+
+.lift-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-block: 0.12em;
+  margin-block: -0.12em;
+}
+
+.lift-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.lift-piece {
+  display: inline-block;
+  white-space: pre;
+  will-change: transform;
+}
+
+.sweep-control {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  min-height: 2.75rem;
+  padding: 0.7rem 1.2rem;
+  overflow: hidden;
+  border: 1px solid $border-control;
+  border-radius: $squircle;
+  background: transparent;
+  color: $text-bright;
+  font-family: $face-heading;
+  font-size: 0.78rem;
+  letter-spacing: $heading-tracking;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    color $hover-out $ease-leave,
+    border-color $hover-out $ease-leave,
+    transform $release $ease-release;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 0;
+    background: $accent;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform $hover-out $ease-leave;
+  }
+
+  @include finePointer {
+    &:hover {
+      color: $accent-ink;
+      border-color: $accent;
+      transition:
+        color $hover-in $ease-enter,
+        border-color $hover-in $ease-enter,
+        transform $release $ease-release;
+
+      &::before {
+        transform: scaleX(1);
+        transition: transform $hover-in $ease-enter;
+      }
+    }
+  }
+
+  &:active {
+    transform: scale(0.96);
+    transition: transform $press ease-out;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $accent;
+    outline-offset: 3px;
+  }
+
+  &.is-primary {
+    border-color: $accent;
+    background: $accent;
+    color: $accent-ink;
+
+    &::before {
+      background: $text-bright;
+    }
+
+    @include finePointer {
+      &:hover {
+        color: $ground;
+        border-color: $text-bright;
+      }
+    }
+  }
+
+  &.is-bare {
+    min-height: 2.25rem;
+    padding: 0.4rem 0.7rem;
+    border-color: transparent;
+    font-size: 0.68rem;
+  }
+}
+
+@include reducedMotion {
+  .sweep-control,
+  .sweep-control::before {
+    transition-duration: 0.01s !important;
+  }
+}
