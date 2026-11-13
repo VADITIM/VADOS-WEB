@@ -1,23 +1,19 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue';
-import { gsap } from 'gsap';
+import { computed, ref } from 'vue';
 
 import LiftText from '@/components/Misc/Lift-Text.vue';
 import SweepLabel from '@/components/Misc/Sweep-Label.vue';
 import { accentStyle, useAccentRoom } from '@/modules/accentRoom';
 import type { Product } from '@/modules/productsRegistry';
-import { isReducedMotion, registerScrollSetup } from '@/modules/scrollEngine';
-import { useSectionReveal } from '@/modules/sectionReveal';
+import { ROOM_REVEAL_START, useSectionReveal } from '@/modules/sectionReveal';
 
 import ProductMedia from './Product-Media.vue';
 
 const props = defineProps<{ product: Product; roomIndex: number; roomCount: number }>();
 
 const COUNT_WIDTH = 2;
-const SLICE_HIDDEN_PERCENT = 70;
 
 const root = ref<HTMLElement | null>(null);
-const slice = ref<HTMLElement | null>(null);
 
 const isMirrored = computed(() => props.roomIndex % 2 === 1);
 const hasDemonstration = computed(() => props.product.demonstration.kind !== 'none');
@@ -27,28 +23,8 @@ const roomLabel = computed(() => {
   return `${number} / ${total} — ${props.product.platform}`;
 });
 
-useSectionReveal(root);
+useSectionReveal(root, 'piece', ROOM_REVEAL_START);
 useAccentRoom(root, () => props.product.accent);
-
-onMounted(() => {
-  if (isReducedMotion()) return;
-  const hiddenPercent = isMirrored.value ? -SLICE_HIDDEN_PERCENT : SLICE_HIDDEN_PERCENT;
-  gsap.set(slice.value, { xPercent: hiddenPercent });
-  registerScrollSetup(() => {
-    gsap
-      .timeline({
-        scrollTrigger: {
-          trigger: root.value,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
-      })
-      .to(slice.value, { xPercent: 0, ease: 'none' })
-      .to(slice.value, { width: '100vw', ease: 'none' });
-  });
-});
 </script>
 
 <template>
@@ -59,10 +35,9 @@ onMounted(() => {
     :class="{ 'is-mirrored': isMirrored, 'is-plain': !hasDemonstration }"
     :style="accentStyle(product.accent)"
   >
-    <span ref="slice" class="room-slice" aria-hidden="true"></span>
     <div class="room-copy">
       <SweepLabel class="micro-label tabular" tag="p" :text="roomLabel" />
-      <LiftText class="room-name" tag="h3" :text="product.name" unit="character" is-display />
+      <SweepLabel class="room-name" tag="h3" :text="product.name" />
       <LiftText class="room-headline" tag="p" :text="product.headline" />
       <ul class="room-strengths">
         <li v-for="strength in product.strengths" :key="strength" class="room-strength">
@@ -106,17 +81,26 @@ onMounted(() => {
   padding: 8rem $gutter;
   overflow: hidden;
 
+  &:first-child {
+    min-height: 0;
+    padding-top: 0;
+  }
+
+  & + &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: $gutter;
+    right: $gutter;
+    height: 1px;
+    background: $text-bright;
+  }
+
   &.is-mirrored {
     grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
 
     .room-copy {
       order: 2;
-    }
-
-    .room-slice {
-      right: auto;
-      left: 0;
-      clip-path: polygon(0 0, 68% 0, 100% 100%, 0 100%);
     }
   }
 
@@ -127,7 +111,13 @@ onMounted(() => {
 
   @include verticalLayout {
     grid-template-columns: minmax(0, 1fr);
-    padding: 6rem $gutter;
+    gap: 1.75rem;
+    min-height: 0;
+    padding: 5rem $gutter 3.5rem;
+
+    &:first-child {
+      padding-top: 0;
+    }
 
     &.is-mirrored {
       grid-template-columns: minmax(0, 1fr);
@@ -139,26 +129,9 @@ onMounted(() => {
   }
 }
 
-.room-slice {
-  position: absolute;
-  top: 14%;
-  bottom: 14%;
-  right: 0;
-  width: 26vw;
-  background: $accent;
-  clip-path: polygon(32% 0, 100% 0, 100% 100%, 0 100%);
-  pointer-events: none;
-
-  @include verticalLayout {
-    top: auto;
-    bottom: 4rem;
-    width: 62vw;
-    height: 42vw;
-  }
-}
-
 .room-copy {
   position: relative;
+  z-index: 1;
   display: grid;
   justify-items: start;
   gap: 1.5rem;
@@ -225,5 +198,12 @@ onMounted(() => {
 
 .room-media {
   position: relative;
+  z-index: 1;
+
+  @include verticalLayout {
+    grid-row: 2;
+    grid-column: 1;
+    margin: 1.25rem 0;
+  }
 }
 </style>

@@ -3,13 +3,18 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { INTRO_ENTER_GATE, SCROLL_ENTER_GATE } from './motionConstants';
 import { onIntroFinished, registerScrollSetup } from './scrollEngine';
-import { hideRevealPieces, playRevealPieces } from './textReveal';
+import { collectRevealPieces, hideRevealPieces, playRevealPiece, playRevealPieces } from './textReveal';
 
-type RevealCause = 'intro' | 'scroll';
+type RevealCause = 'intro' | 'scroll' | 'piece';
 
 const SCROLL_REVEAL_START = 'top 85%';
+export const ROOM_REVEAL_START = 'top 65%';
 
-export function useSectionReveal(root: Ref<HTMLElement | null>, cause: RevealCause = 'scroll'): void {
+export function useSectionReveal(
+  root: Ref<HTMLElement | null>,
+  cause: RevealCause = 'scroll',
+  start: string = SCROLL_REVEAL_START,
+): void {
   onMounted(() => {
     const element = root.value;
     if (!element) return;
@@ -18,10 +23,23 @@ export function useSectionReveal(root: Ref<HTMLElement | null>, cause: RevealCau
       onIntroFinished(() => playRevealPieces(element, INTRO_ENTER_GATE));
       return;
     }
+    if (cause === 'piece') {
+      registerScrollSetup(() => {
+        collectRevealPieces(element).forEach((piece) => {
+          ScrollTrigger.create({
+            trigger: piece.closest<HTMLElement>('.lift-mask') ?? piece,
+            start,
+            once: true,
+            onEnter: () => playRevealPiece(piece, SCROLL_ENTER_GATE),
+          });
+        });
+      });
+      return;
+    }
     registerScrollSetup(() => {
       ScrollTrigger.create({
         trigger: element,
-        start: SCROLL_REVEAL_START,
+        start,
         once: true,
         onEnter: () => playRevealPieces(element, SCROLL_ENTER_GATE),
       });

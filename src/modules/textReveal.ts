@@ -4,6 +4,8 @@ import {
   COUNT_SECONDS,
   HORIZONTAL_STAGGER_WEIGHT,
   LIFT_DISPLAY_SECONDS,
+  LIFT_SNAP_ORDER_SECONDS,
+  LIFT_SNAP_SECONDS,
   LIFT_TEXT_SECONDS,
   PANEL_ENTER_SECONDS,
   SWEEP_GROW_SECONDS,
@@ -68,43 +70,70 @@ export function hideRevealPieces(root: HTMLElement): void {
   });
 }
 
+function liftPiece(piece: HTMLElement, delay: number): void {
+  const kind = piece.dataset.lift;
+  const order = Number(piece.dataset.liftOrder ?? '0');
+  if (kind === 'snap') {
+    gsap.to(piece, {
+      yPercent: 0,
+      duration: LIFT_SNAP_SECONDS,
+      ease: 'expo.out',
+      delay: delay + order * LIFT_SNAP_ORDER_SECONDS,
+      overwrite: 'auto',
+    });
+    return;
+  }
+  const isDisplay = kind === 'display';
+  gsap.to(piece, {
+    yPercent: 0,
+    duration: isDisplay ? LIFT_DISPLAY_SECONDS : LIFT_TEXT_SECONDS,
+    ease: isDisplay ? 'back.out(1.4)' : 'power2.out',
+    delay: delay + order * 0.035,
+    overwrite: 'auto',
+  });
+}
+
+function openPanel(panel: HTMLElement, delay: number): void {
+  gsap.to(panel, {
+    clipPath: OPEN_PANEL,
+    duration: PANEL_ENTER_SECONDS,
+    ease: 'power2.out',
+    delay,
+    overwrite: 'auto',
+    clearProps: 'clipPath',
+  });
+}
+
+function countUp(element: HTMLElement, delay: number): void {
+  const counter = { value: 0 };
+  gsap.to(counter, {
+    value: Number(element.dataset.countTo ?? '0'),
+    duration: COUNT_SECONDS,
+    ease: 'power2.out',
+    delay,
+    onUpdate: () => {
+      element.textContent = formatCount(element, counter.value);
+    },
+  });
+}
+
+export function collectRevealPieces(root: HTMLElement): HTMLElement[] {
+  return collect(root, [LABEL_SELECTOR, LIFT_SELECTOR, PANEL_SELECTOR, COUNT_SELECTOR].join(', '));
+}
+
+export function playRevealPiece(piece: HTMLElement, delay: number): void {
+  if (isReducedMotion()) return;
+  if (piece.matches(LABEL_SELECTOR)) buildLabelReveal(piece).delay(delay);
+  else if (piece.matches(LIFT_SELECTOR)) liftPiece(piece, delay);
+  else if (piece.matches(PANEL_SELECTOR)) openPanel(piece, delay);
+  else if (piece.matches(COUNT_SELECTOR)) countUp(piece, delay);
+}
+
 export function playRevealPieces(root: HTMLElement, startAt: number): void {
   if (isReducedMotion()) return;
   const frame = root.getBoundingClientRect();
-  collect(root, LABEL_SELECTOR).forEach((label) => {
-    buildLabelReveal(label).delay(positionalDelay(label, frame, startAt));
-  });
-  collect(root, LIFT_SELECTOR).forEach((piece) => {
-    const isDisplay = piece.dataset.lift === 'display';
-    const order = Number(piece.dataset.liftOrder ?? '0');
-    gsap.to(piece, {
-      yPercent: 0,
-      duration: isDisplay ? LIFT_DISPLAY_SECONDS : LIFT_TEXT_SECONDS,
-      ease: isDisplay ? 'back.out(1.4)' : 'power2.out',
-      delay: positionalDelay(piece, frame, startAt) + order * 0.035,
-      overwrite: 'auto',
-    });
-  });
-  collect(root, PANEL_SELECTOR).forEach((panel) => {
-    gsap.to(panel, {
-      clipPath: OPEN_PANEL,
-      duration: PANEL_ENTER_SECONDS,
-      ease: 'power2.out',
-      delay: positionalDelay(panel, frame, startAt),
-      overwrite: 'auto',
-      clearProps: 'clipPath',
-    });
-  });
-  collect(root, COUNT_SELECTOR).forEach((element) => {
-    const counter = { value: 0 };
-    gsap.to(counter, {
-      value: Number(element.dataset.countTo ?? '0'),
-      duration: COUNT_SECONDS,
-      ease: 'power2.out',
-      delay: positionalDelay(element, frame, startAt),
-      onUpdate: () => {
-        element.textContent = formatCount(element, counter.value);
-      },
-    });
+  collectRevealPieces(root).forEach((piece) => {
+    const isSnap = piece.dataset.lift === 'snap';
+    playRevealPiece(piece, isSnap ? startAt : positionalDelay(piece, frame, startAt));
   });
 }

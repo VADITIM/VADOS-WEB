@@ -51,6 +51,12 @@ function chooseAccent(hex: string): void {
     .set(bar, { opacity: 0 });
 }
 
+const statementLines = [
+  'VAD/OS Application Systems is a closed library of skills, animations, timelines, and UI components.',
+  'A design language that acts as both guide and ruler.',
+  'Used correctly with AI, it becomes especially powerful and goes well beyond blunt, generic UI/UX design, guiding the eyes with impact & reaction, not just demonstration.',
+];
+
 function paddedNumber(value: number): string {
   return String(value).padStart(COUNT_WIDTH, '0');
 }
@@ -62,11 +68,9 @@ function paddedNumber(value: number): string {
     <header class="system-header">
       <SweepLabel class="micro-label tabular" tag="p" :text="`( The system · version ${SYSTEM_VERSION} )`" />
       <LiftText class="system-title" tag="h2" text="V/AS" unit="character" is-display />
-      <LiftText
-        class="system-statement"
-        tag="p"
-        text="VAD/OS Application Systems. The identity, the component library, the motion grammar and the build conventions behind every product on this page."
-      />
+      <blockquote class="system-statement">
+        <LiftText v-for="line in statementLines" :key="line" class="statement-line" tag="p" :text="line" unit="block" />
+      </blockquote>
     </header>
 
     <ul class="system-figures">
@@ -145,10 +149,28 @@ function paddedNumber(value: number): string {
 
 .system-header {
   display: grid;
-  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas:
+    'label label'
+    'title statement';
+  align-items: end;
+  gap: 1rem clamp(2rem, 5vw, 6rem);
+
+  > :first-child {
+    grid-area: label;
+  }
+
+  @include verticalLayout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'label'
+      'title'
+      'statement';
+  }
 }
 
 .system-title {
+  grid-area: title;
   font-family: $face-display;
   font-size: clamp(4rem, 15vw, 18rem);
   line-height: 1.1;
@@ -160,11 +182,26 @@ function paddedNumber(value: number): string {
 }
 
 .system-statement {
-  @include heading;
-  max-width: 30ch;
-  font-size: clamp(1.05rem, 1.7vw, 1.9rem);
-  line-height: 1.25;
-  color: $text-bright;
+  grid-area: statement;
+  display: grid;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0 0 0 1.25rem;
+}
+
+.statement-line {
+  @include prose;
+  position: relative;
+  max-width: 52ch;
+  font-size: clamp(0.85rem, 1.1vw, 1.1rem);
+  color: $text-body;
+
+  &::before {
+    content: '>';
+    position: absolute;
+    left: -1.25rem;
+    color: $accent;
+  }
 }
 
 .system-figures {

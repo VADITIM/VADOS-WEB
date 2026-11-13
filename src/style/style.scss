@@ -9,7 +9,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: clamp(14px, 0.45vw + 9.5px, 22px);
-  background: $ground !important;
+  background: $ground-deep !important;
 
   @include verticalLayout {
     font-size: 16px;
@@ -38,7 +38,7 @@ html.is-intro-running {
 
 body {
   margin: 0;
-  background: $ground;
+  background: $ground-deep;
   color: $text-primary;
   font-family: $face-functional;
   line-height: 1.5;

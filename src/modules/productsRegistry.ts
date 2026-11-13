@@ -1,9 +1,10 @@
 export type ProductDemonstration =
-  | { kind: 'screenshots'; images: string[]; label: string; caption: string }
-  | { kind: 'recording'; video: string; label: string; caption: string }
-  | { kind: 'liquid'; label: string; caption: string }
-  | { kind: 'stack'; label: string; caption: string }
-  | { kind: 'ink'; label: string; caption: string }
+  | { kind: 'screenshots'; images: string[]; label: string }
+  | { kind: 'recording'; video: string; label: string }
+  | { kind: 'liquid'; label: string }
+  | { kind: 'live'; source: string; size: string; hint: string; label: string }
+  | { kind: 'stack'; label: string }
+  | { kind: 'ink'; label: string }
   | { kind: 'none' };
 
 export interface Product {
@@ -28,19 +29,18 @@ export const products: Product[] = [
     platform: 'Arch · Wayland',
     stack: 'Quickshell · Qt 6 · QML',
     accent: '#0040ff',
-    headline: 'A desktop environment that grows out of one screen edge.',
+    headline: "Full-screen sections, motion-based navigation.",
     strengths: [
-      'Taskbar, search, dashboard and settings are one liquid system, not separate widgets.',
-      'Built for driftwm first. Runs on Hyprland and any wlroots compositor.',
-      'Window modes: a free infinite canvas, or a desktop with snap, maximize and minimize.',
-      'One shell.json holds the whole configuration and applies live.',
+      "Tactile UI components, built to be felt, not just scrolled through.",
     ],
     repositoryUrl: `${GITHUB}/VADOS-SHELL`,
     availability: 'Public',
     demonstration: {
-      kind: 'liquid',
-      label: 'Live · the taskbar edge',
-      caption: 'Move the pointer to pull liquid out of the bar. Click to open the search column.',
+      kind: 'live',
+      source: 'shell-live/play.html',
+      size: '19 MB',
+      label: 'Live · the shell playground',
+      hint: 'G search · D dashboard · Ctrl+P settings',
     },
   },
   {
@@ -49,12 +49,10 @@ export const products: Product[] = [
     platform: 'Windows · Linux',
     stack: 'Tauri v2 · SvelteKit · Rust',
     accent: '#8a2be2',
-    headline: 'Every command becomes a block you can read, fold and search.',
+    headline: "A Terminal focusing on UX.",
     strengths: [
-      'Output is structured information: hierarchy, results and errors, not one stream of text.',
-      'Raw, structured and rendered views of the same command. Nothing is lost or replaced.',
-      'It interprets output only when it is sure, and falls back to the raw terminal when it is not.',
-      'SSH, tmux and full-screen programs run unchanged.',
+      "GUI based Terminal with actual features over bloat with the power of CLI.",
+      "Improve your Terminal sessions with readable output with support on markdown over markup.",
     ],
     repositoryUrl: `${GITHUB}/VADOS-TERMINAL`,
     availability: 'Public',
@@ -62,7 +60,6 @@ export const products: Product[] = [
       kind: 'screenshots',
       images: ['media/terminal-3.png', 'media/terminal-1.png', 'media/terminal-4.png', 'media/terminal-5.png'],
       label: 'Screenshots · Windows build',
-      caption: 'git diff printed as a block: the warning, the usage line and the options each have their own level.',
     },
   },
   {
@@ -71,12 +68,9 @@ export const products: Product[] = [
     platform: 'Galaxy S25 · One UI 8',
     stack: 'Kotlin · WebView · Shizuku',
     accent: '#FFDD1B',
-    headline: 'The status bar, the shade and the Now Bar, replaced by one bubble.',
+    headline: "Heavily animated and optimized Dynamic Island and System Tray overhaul for Android.",
     strengths: [
-      'Music, a running timer and a call share the camera cutout and split off as circles.',
-      'A notification grows out of the bubble in the colour of its app, then folds back.',
-      'Tap the status bubble and it opens into quick settings, weather, storage and memory.',
-      'No root. Privileged actions run through a Shizuku user service.',
+      "Features everything and more as Apple's own Dynamic Island.",
     ],
     repositoryUrl: `${GITHUB}/VADOS-BUBBLE`,
     availability: 'Public',
@@ -84,7 +78,6 @@ export const products: Product[] = [
       kind: 'recording',
       video: 'media/bubble-latest.mp4',
       label: 'Recorded on the S25',
-      caption: 'Fifteen seconds of the bubble carrying music, alerts and the dashboard.',
     },
   },
   {
@@ -93,19 +86,15 @@ export const products: Product[] = [
     platform: 'Android · Arch',
     stack: 'Kotlin · Jetpack Compose · Qt 6',
     accent: '#DC143C',
-    headline: 'A gallery with three sections and a menu that holds three things.',
+    headline: "An image gallery for Android without the bloat.",
     strengths: [
-      'Recent, Albums and Favorites. Newest at the bottom, where the thumb already is.',
-      'Every gesture drives its change frame by frame. Letting go only decides.',
-      'An album folds into a stack and opens into a grid under the finger.',
-      'The same gallery runs as a native Qt 6 app on Arch.',
+      "Enjoy eye-guiding animations with features that matter for everyday use.",
     ],
     repositoryUrl: `${GITHUB}/VADOS-GALLERY`,
     availability: 'Public',
     demonstration: {
       kind: 'stack',
       label: 'Live · the stack group',
-      caption: 'Press the stack. It opens into a grid, and closes faster than it opened.',
     },
   },
   {
@@ -127,7 +116,6 @@ export const products: Product[] = [
       kind: 'screenshots',
       images: ['media/files-preview.png'],
       label: 'Screenshot · list view',
-      caption: 'Home in list view with the details column open.',
     },
   },
   {
@@ -148,22 +136,6 @@ export const products: Product[] = [
     demonstration: {
       kind: 'ink',
       label: 'Live · the ink canvas',
-      caption: 'Draw here with a pen, a finger or the mouse.',
     },
-  },
-  {
-    id: 'dashboard',
-    name: 'VAD/OS',
-    platform: 'Web',
-    stack: 'A web interface over an Obsidian vault',
-    accent: '#2ee6ff',
-    headline: 'An agentic OS dashboard for Claude.',
-    strengths: [
-      'The web interface over the Obsidian memory vault that the agents read and write.',
-      'The product the name VAD/OS means when it stands alone.',
-    ],
-    repositoryUrl: null,
-    availability: 'Private',
-    demonstration: { kind: 'none' },
   },
 ];

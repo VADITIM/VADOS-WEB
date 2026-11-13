@@ -100,7 +100,7 @@ $well-padding: 0.75rem;
   margin: 0.9rem auto 0;
   padding: 0.3rem 0.7rem;
   max-width: 52ch;
-  background: $ground;
+  background: transparent;
   font-size: 0.75rem;
   color: $text-label;
   text-align: center;

@@ -4,6 +4,7 @@ import type { Product } from '@/modules/productsRegistry';
 
 import InkDemonstration from './Demonstrations/Ink-Demonstration.vue';
 import LiquidDemonstration from './Demonstrations/Liquid-Demonstration.vue';
+import LiveDemonstration from './Demonstrations/Live-Demonstration.vue';
 import RecordingDemonstration from './Demonstrations/Recording-Demonstration.vue';
 import ScreenshotDemonstration from './Demonstrations/Screenshot-Demonstration.vue';
 import StackDemonstration from './Demonstrations/Stack-Demonstration.vue';
@@ -12,11 +13,7 @@ defineProps<{ product: Product }>();
 </script>
 
 <template>
-  <Module
-    v-if="product.demonstration.kind !== 'none'"
-    :label="product.demonstration.label"
-    :caption="product.demonstration.caption"
-  >
+  <Module v-if="product.demonstration.kind !== 'none'" :label="product.demonstration.label">
     <ScreenshotDemonstration
       v-if="product.demonstration.kind === 'screenshots'"
       :images="product.demonstration.images"
@@ -28,6 +25,13 @@ defineProps<{ product: Product }>();
       :product-name="product.name"
     />
     <LiquidDemonstration v-else-if="product.demonstration.kind === 'liquid'" />
+    <LiveDemonstration
+      v-else-if="product.demonstration.kind === 'live'"
+      :source="product.demonstration.source"
+      :size="product.demonstration.size"
+      :hint="product.demonstration.hint"
+      :product-name="product.name"
+    />
     <StackDemonstration v-else-if="product.demonstration.kind === 'stack'" />
     <InkDemonstration v-else-if="product.demonstration.kind === 'ink'" />
   </Module>

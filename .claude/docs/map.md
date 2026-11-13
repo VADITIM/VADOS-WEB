@@ -16,9 +16,10 @@
 | `src/modules/accentRoom.ts` | `accentStyle`, `inkFor`, the standing accent, `useAccentRoom` |
 | `src/modules/fitText.ts` | Sizes a wordmark to the full width of its frame |
 | `src/modules/motionConstants.ts` | Every duration and stagger weight |
-| `src/components/Misc/` | Shared pieces: `Module`, `Sweep-Label`, `Lift-Text`, `Scatter-Word`, `Site-Navigator` |
+| `src/components/Misc/` | Shared pieces: `Module`, `Sweep-Label`, `Lift-Text`, `Site-Navigator`, `Magnetic-Dots` |
 | `src/components/Products/Demonstrations/` | One component per demonstration kind |
 | `public/media/` | Real product screenshots and the Bubble recording |
+| `public/shell-live/` | The Shell playground compiled to WebAssembly (Qt 6.8.1). Rebuilt from VADOS-SHELL with `python tools/preview/web/build.py <this folder>`; loaded by `Live-Demonstration` only when play is pressed |
 | `public/fonts/` | JetBrains Mono, Chakra Petch. `Wosker.otf` is dropped in by hand |
 
 ## To change X, look in Y
