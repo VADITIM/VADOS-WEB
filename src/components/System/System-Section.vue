@@ -98,7 +98,6 @@ function paddedNumber(value: number): string {
 
       <div class="system-aside">
         <Module
-          label="Law 02 · live"
           caption="Pick an accent. Nothing in this room names a colour. Every piece reads it from the room."
         >
           <ul class="accent-slabs">

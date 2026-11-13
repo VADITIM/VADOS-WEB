@@ -195,7 +195,7 @@ onMounted(() => {
         tag="p"
         text="Different Applications. A Single Experience."
       />
-      <a class="sweep-control is-primary" href="#products" @click.prevent="scrollToTarget('#products')">
+      <a class="sweep-control is-primary reveal-panel" href="#products" @click.prevent="scrollToTarget('#products')">
         See the products
         <span aria-hidden="true">→</span>
       </a>

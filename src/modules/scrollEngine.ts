@@ -22,7 +22,7 @@ export function registerScrollSetup(setup: Callback): void {
   scrollSetups.push(setup);
 }
 
-function isTouchOnly(): boolean {
+export function isTouchOnly(): boolean {
   return window.matchMedia('(hover: none), (pointer: coarse)').matches;
 }
 

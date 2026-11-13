@@ -1,10 +1,10 @@
 export type ProductDemonstration =
-  | { kind: 'screenshots'; images: string[]; label: string }
-  | { kind: 'recording'; video: string; label: string }
-  | { kind: 'liquid'; label: string }
-  | { kind: 'live'; source: string; size: string; hint: string; label: string }
-  | { kind: 'stack'; label: string }
-  | { kind: 'ink'; label: string }
+  | { kind: 'screenshots'; images: string[] }
+  | { kind: 'recording'; video: string }
+  | { kind: 'liquid' }
+  | { kind: 'live'; source: string; size: string; hint: string }
+  | { kind: 'stack' }
+  | { kind: 'ink' }
   | { kind: 'none' };
 
 export interface Product {
@@ -39,7 +39,6 @@ export const products: Product[] = [
       kind: 'live',
       source: 'shell-live/play.html',
       size: '19 MB',
-      label: 'Live · the shell playground',
       hint: 'G search · D dashboard · Ctrl+P settings',
     },
   },
@@ -59,7 +58,6 @@ export const products: Product[] = [
     demonstration: {
       kind: 'screenshots',
       images: ['media/terminal-3.png', 'media/terminal-1.png', 'media/terminal-4.png', 'media/terminal-5.png'],
-      label: 'Screenshots · Windows build',
     },
   },
   {
@@ -77,7 +75,6 @@ export const products: Product[] = [
     demonstration: {
       kind: 'recording',
       video: 'media/bubble-latest.mp4',
-      label: 'Recorded on the S25',
     },
   },
   {
@@ -94,7 +91,6 @@ export const products: Product[] = [
     availability: 'Public',
     demonstration: {
       kind: 'stack',
-      label: 'Live · the stack group',
     },
   },
   {
@@ -115,7 +111,6 @@ export const products: Product[] = [
     demonstration: {
       kind: 'screenshots',
       images: ['media/files-preview.png'],
-      label: 'Screenshot · list view',
     },
   },
   {
@@ -135,7 +130,6 @@ export const products: Product[] = [
     availability: 'Public · in progress',
     demonstration: {
       kind: 'ink',
-      label: 'Live · the ink canvas',
     },
   },
 ];

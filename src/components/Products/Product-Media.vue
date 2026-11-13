@@ -13,7 +13,7 @@ defineProps<{ product: Product }>();
 </script>
 
 <template>
-  <Module v-if="product.demonstration.kind !== 'none'" :label="product.demonstration.label">
+  <Module v-if="product.demonstration.kind !== 'none'">
     <ScreenshotDemonstration
       v-if="product.demonstration.kind === 'screenshots'"
       :images="product.demonstration.images"

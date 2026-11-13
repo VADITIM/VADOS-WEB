@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{ label?: string; caption?: string }>();
+defineProps<{ caption?: string }>();
 
 function trackPointer(event: PointerEvent): void {
   if (event.pointerType !== 'mouse') return;
@@ -13,8 +13,7 @@ function trackPointer(event: PointerEvent): void {
 <template>
   <figure class="module-frame">
     <div class="module reveal-panel" @pointermove="trackPointer">
-      <span v-if="label" class="module-label">{{ label }}</span>
-      <div class="module-well" :class="{ 'has-label': label }">
+      <div class="module-well">
         <slot />
       </div>
       <span class="module-hue" aria-hidden="true"></span>
@@ -51,22 +50,8 @@ $well-padding: 0.75rem;
   }
 }
 
-.module-label {
-  @include microLabel;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  padding: 0.81rem 1rem;
-  pointer-events: none;
-}
-
 .module-well {
   padding: $well-padding;
-
-  &.has-label {
-    padding-top: 2.5rem;
-  }
 
   :deep(> *) {
     border-radius: max(0px, calc(#{$squircle} - #{$well-padding}));

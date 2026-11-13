@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, ref } from 'vue';
 
+import { isTouchOnly } from '@/modules/scrollEngine';
+
 defineProps<{ source: string; productName: string; size: string; hint: string }>();
 
 const SCREEN_WIDTH = 1440;
@@ -9,10 +11,12 @@ const SCREEN_HEIGHT = 900;
 const stage = ref<HTMLElement | null>(null);
 const isRunning = ref(false);
 const screenScale = ref(1);
+const isDesktopOnly = ref(false);
 
 let observer: ResizeObserver | null = null;
 
 onMounted(() => {
+  isDesktopOnly.value = isTouchOnly();
   if (!stage.value) return;
   observer = new ResizeObserver(([entry]) => {
     screenScale.value = entry.contentRect.width / SCREEN_WIDTH;
@@ -42,6 +46,10 @@ function stop(): void {
         :style="{ width: `${SCREEN_WIDTH}px`, height: `${SCREEN_HEIGHT}px`, transform: `scale(${screenScale})` }"
         allow="fullscreen"
       ></iframe>
+      <p v-else-if="isDesktopOnly" class="live-start is-notice">
+        <span class="micro-label">Only on desktop</span>
+        <span class="live-size micro-label">Open this page on a computer to run {{ productName }} live</span>
+      </p>
       <button v-else class="live-start" type="button" @click="start">
         <span class="live-play" aria-hidden="true"></span>
         <span class="live-start-text">
@@ -90,6 +98,14 @@ function stop(): void {
   color: $text-bright;
   cursor: pointer;
   transition: border-color $hover-out $ease-leave;
+
+  &.is-notice {
+    gap: 0.6rem;
+    margin: 0;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: default;
+  }
 
   &:focus-visible {
     outline: 2px solid $accent;
