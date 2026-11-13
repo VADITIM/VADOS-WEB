@@ -22,6 +22,9 @@ const CLIPPED_TEXT = 'inset(0 100% 0 0)';
 const OPEN_TEXT = 'inset(0 0% 0 0)';
 const CLIPPED_PANEL = 'inset(0 0 100% 0)';
 const OPEN_PANEL = 'inset(0 0 0% 0)';
+const CLIPPED_CONTROL = 'inset(0 0 0 100%)';
+const OPEN_CONTROL = 'inset(0 0 0 0%)';
+const CONTROL_SELECTOR = '.sweep-control';
 const HIDDEN_LIFT_PERCENT = 115;
 
 function collect(root: HTMLElement, selector: string): HTMLElement[] {
@@ -64,7 +67,9 @@ export function hideRevealPieces(root: HTMLElement): void {
     gsap.set(label.querySelector('.pc-label-bar'), { scaleX: 0, opacity: 1, transformOrigin: 'left center' });
   });
   gsap.set(collect(root, LIFT_SELECTOR), { yPercent: HIDDEN_LIFT_PERCENT });
-  gsap.set(collect(root, PANEL_SELECTOR), { clipPath: CLIPPED_PANEL });
+  collect(root, PANEL_SELECTOR).forEach((panel) => {
+    gsap.set(panel, { clipPath: panel.matches(CONTROL_SELECTOR) ? CLIPPED_CONTROL : CLIPPED_PANEL });
+  });
   collect(root, COUNT_SELECTOR).forEach((element) => {
     element.textContent = formatCount(element, 0);
   });
@@ -95,7 +100,7 @@ function liftPiece(piece: HTMLElement, delay: number): void {
 
 function openPanel(panel: HTMLElement, delay: number): void {
   gsap.to(panel, {
-    clipPath: OPEN_PANEL,
+    clipPath: panel.matches(CONTROL_SELECTOR) ? OPEN_CONTROL : OPEN_PANEL,
     duration: PANEL_ENTER_SECONDS,
     ease: 'power2.out',
     delay,

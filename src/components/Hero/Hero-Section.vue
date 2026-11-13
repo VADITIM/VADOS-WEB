@@ -102,9 +102,10 @@ function measureDock(): void {
     scale: cornerScale,
   };
   if (section.clientWidth < section.clientHeight) {
-    const scale = Math.min(LARGEST_DOCKED_SCALE, (roomRight - roomLeft) / box.offsetWidth);
+    const scale = Math.min(1, (roomRight - roomLeft) / box.offsetWidth);
     const targetY = (textBottom + gap + roomBottom) / 2;
     dock = { x: (roomLeft + roomRight) / 2 - centerX, y: targetY - centerY, scale };
+    corner = dock;
     return;
   }
   const scale = Math.min(LARGEST_DOCKED_SCALE, (roomRight - textRight - gap) / box.offsetWidth);

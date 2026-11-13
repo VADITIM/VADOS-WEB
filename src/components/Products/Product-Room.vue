@@ -111,7 +111,8 @@ useAccentRoom(root, () => props.product.accent);
 
   @include verticalLayout {
     grid-template-columns: minmax(0, 1fr);
-    gap: 1.75rem;
+    justify-items: start;
+    gap: 1.5rem;
     min-height: 0;
     padding: 5rem $gutter 3.5rem;
 
@@ -121,10 +122,6 @@ useAccentRoom(root, () => props.product.accent);
 
     &.is-mirrored {
       grid-template-columns: minmax(0, 1fr);
-
-      .room-copy {
-        order: 0;
-      }
     }
   }
 }
@@ -135,6 +132,18 @@ useAccentRoom(root, () => props.product.accent);
   display: grid;
   justify-items: start;
   gap: 1.5rem;
+
+  @include verticalLayout {
+    display: contents;
+
+    > * {
+      order: 2;
+    }
+
+    > :nth-child(-n + 2) {
+      order: 0;
+    }
+  }
 }
 
 .room-name {
@@ -201,9 +210,9 @@ useAccentRoom(root, () => props.product.accent);
   z-index: 1;
 
   @include verticalLayout {
-    grid-row: 2;
-    grid-column: 1;
-    margin: 1.25rem 0;
+    order: 1;
+    justify-self: stretch;
+    margin: 0.5rem 0;
   }
 }
 </style>

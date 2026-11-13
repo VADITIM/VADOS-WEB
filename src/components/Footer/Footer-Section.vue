@@ -154,7 +154,8 @@ onMounted(() => {
   overflow: hidden;
 
   @include verticalLayout {
-    padding-top: 7rem;
+    gap: 3rem;
+    padding-top: 6rem;
   }
 }
 
@@ -163,18 +164,36 @@ onMounted(() => {
   display: grid;
   justify-items: start;
   gap: 2rem;
+
+  @include verticalLayout {
+    align-self: center;
+    justify-items: stretch;
+    gap: 2.5rem;
+  }
 }
 
 .footer-statement {
   @include heading;
   font-size: clamp(2rem, 5.6vw, 6.5rem);
   color: $text-bright;
+
+  @include verticalLayout {
+    font-size: clamp(2.6rem, 13vw, 5.5rem);
+    line-height: 1.05;
+  }
 }
 
 .footer-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
+
+  @include verticalLayout {
+    > * {
+      flex: 1 1 0;
+      justify-content: center;
+    }
+  }
 }
 
 .footer-title-frame {
